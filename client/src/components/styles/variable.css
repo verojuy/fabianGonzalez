@@ -1,0 +1,15 @@
+:root {
+  /* colores */
+  --color-bg: #f5f2ee;
+  --color-text: #1a1a1a;
+  --color-muted: #6b6b6b;
+  --color-accent: #b89b5e;
+
+  /* tipografías */
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  /* layout */
+  --max-width: 1200px;
+  --section-padding: 6rem;
+}

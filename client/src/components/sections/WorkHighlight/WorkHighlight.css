@@ -1,0 +1,184 @@
+.wh {
+  position: relative;
+  padding: clamp(4.5rem, 8vw, 6.5rem) 0;
+  background-image: var(--wh-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+/* overlay editorial */
+.wh__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(90, 105, 100, 0.72);
+  z-index: 0;
+}
+
+/* layout principal (DESKTOP) */
+.wh__wrap {
+  position: relative;
+  z-index: 1;
+  width: min(var(--max-width), 92vw);
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+/* TEXTO */
+.wh__eyebrow {
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.85rem;
+}
+
+.wh__title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(2.1rem, 2.5vw, 3.4rem);
+  line-height: 1.05;
+  color: rgba(255, 255, 255, 0.96);
+  margin-bottom: 0.9rem;
+}
+
+.wh__lead {
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 34ch;
+}
+
+/* Link "Ver todo" */
+.wh__link {
+  display: inline-block;
+  margin-top: 3.8rem;
+  font-size: 1rem;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  color: rgba(255, 255, 255, 0.92);
+  transition: opacity 0.2s ease;
+}
+
+.wh__link:hover {
+  opacity: 0.75;
+}
+
+/* GRID DE IMÁGENES (DESKTOP) */
+.wh__grid {
+  display: grid;
+  margin-top: 2.2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.8rem, 1.5vw, 1.2rem);
+  align-items: stretch;
+}
+
+.wh__card {
+  border-radius: 0; /* ✅ esquinas en punta como Pablo Laguía */
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.22);
+}
+
+.wh__img {
+  width: 100%;
+  height: clamp(280px, 34vw, 440px);
+  object-fit: cover;
+  display: block;
+  transform: scale(1.01);
+  transition: transform 0.35s ease;
+}
+
+.wh__card:hover .wh__img {
+  transform: scale(1.05);
+}
+
+/* variación editorial (DESKTOP) */
+.wh__card--a .wh__img { height: clamp(300px, 36vw, 460px); }
+.wh__card--b .wh__img { height: clamp(270px, 32vw, 410px); }
+.wh__card--c .wh__img { height: clamp(300px, 36vw, 460px); }
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+/* Tablet y abajo: se apila (texto arriba / imágenes abajo) */
+@media (max-width: 1024px) {
+  .wh__wrap {
+    grid-template-columns: 1fr;
+  }
+
+  /* en este breakpoint todavía puede quedar alineado a izquierda,
+     lo dejamos así para que no “salte” demasiado */
+  .wh__lead {
+    max-width: 60ch;
+  }
+}
+
+/* ✅ MOBILE (como tu referencia): texto arriba + 3 imágenes abajo centradas y más chicas */
+@media (max-width: 768px) {
+  .wh {
+    padding: 4.2rem 0;
+  }
+
+  /* texto arriba, centrado */
+  .wh__wrap {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .wh__text {
+    margin-bottom: 2.2rem; /* separa del bloque de fotos */
+  }
+
+  .wh__lead {
+    max-width: 32ch;
+    margin: 0 auto;
+  }
+
+  .wh__link {
+    margin-top: 2rem;
+  }
+
+  /* bloque de 3 imágenes abajo, centrado y NO a ancho completo */
+  .wh__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+
+    width: min(420px, 92vw); /* ✅ controla tamaño total */
+    margin: 0 auto;          /* ✅ centrado */
+  }
+
+  /* miniaturas más chicas */
+  .wh__img,
+  .wh__card--a .wh__img,
+  .wh__card--b .wh__img,
+  .wh__card--c .wh__img {
+    height: 170px;
+  }
+
+  /* si querés mantener una “variación” mínima, descomentá esto:
+  .wh__card--b .wh__img { height: 160px; }
+  */
+}
+
+/* Mobile muy chico: pasa a 2 columnas para que no se achiquen de más */
+@media (max-width: 420px) {
+  .wh__grid {
+    grid-template-columns: repeat(2, 1fr);
+    width: min(360px, 92vw);
+  }
+
+  .wh__img,
+  .wh__card--a .wh__img,
+  .wh__card--b .wh__img,
+  .wh__card--c .wh__img {
+    height: 175px;
+  }
+}

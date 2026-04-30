@@ -1,0 +1,100 @@
+
+
+.st {
+  background: var(--color-bg);
+  padding: clamp(4rem, 7vw, 6rem) 0;
+}
+
+.st__wrap {
+  width: min(var(--max-width), 92vw);
+  margin: 0 auto;
+}
+
+.st__header {
+  margin-bottom: 3rem;
+}
+
+.st__eyebrow {
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.6);
+  margin-bottom: 0.9rem;
+}
+
+.st__title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.7rem, 2.4vw, 2.5rem);
+  line-height: 1.1;
+  color: rgba(0,0,0,0.9);
+}
+
+/* Grid de "carpetas" */
+.st__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.2rem, 2vw, 2rem);
+  align-items: start;
+}
+
+.st__card {
+  display: block;
+}
+
+.st__thumb {
+  background: #fff;
+  overflow: hidden;
+  border-radius: 0; /* estilo "esquinas en punta" */
+}
+
+.st__img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.01);
+  transition: transform 0.35s ease;
+}
+
+.st__card:hover .st__img {
+  transform: scale(1.05);
+}
+
+.st__meta {
+  padding-top: 1.4rem;
+  text-align: center; /* como en la referencia */
+}
+
+.st__couple {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: rgba(0,0,0,0.9);
+  margin-bottom: 0.35rem;
+}
+
+.st__loc {
+  font-size: 1.02rem;
+  color: rgba(0,0,0,0.72);
+  line-height: 1.45;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .st__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 620px) {
+  .st__grid {
+    grid-template-columns: 1fr;
+  }
+  .st__meta {
+    text-align: left; /* en mobile suele leerse mejor */
+  }
+}
