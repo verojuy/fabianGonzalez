@@ -1,16 +1,15 @@
 import { useMemo, useState } from "react";
 import "./Contact.css";
 
-// ✅ Cambiá esta ruta por tu imagen real
+// Cambia esta ruta por tu imagen real
 // import contactPhoto from "../../../assets/images/contact/contact.jpg";
 
-const CALENDLY_URL = "https://calendly.com/TU-USUARIO/llamada-15min"; // ✅ cambiá esto
+const CALENDLY_URL = "https://calendly.com/TU-USUARIO/llamada-15min"; // cambia esto
 
 export default function Contact() {
   const [calOpen, setCalOpen] = useState(false);
 
   const calendlyEmbedUrl = useMemo(() => {
-    // params para que se vea más limpio
     const url = new URL(CALENDLY_URL);
     url.searchParams.set("hide_landing_page_details", "1");
     url.searchParams.set("hide_gdpr_banner", "1");
@@ -22,49 +21,20 @@ export default function Contact() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // ✅ acá después lo conectamos a EmailJS / backend / Formspree, etc.
-    alert("Formulario enviado (demo). Luego lo conectamos al envío real 🙂");
+    alert("Formulario enviado (demo). Luego lo conectamos al envío real.");
   };
 
   return (
     <section className="ct" aria-label="Contacto">
       <div className="ct__wrap">
-        {/* LEFT */}
         <aside className="ct__left">
           {/* <div className="ct__photoWrap">
             <img className="ct__photo" src={contactPhoto} alt="Foto editorial" />
           </div> */}
 
-          <h2 className="ct__leftTitle">“Join our next trip”</h2>
+          <h2 className="ct__leftTitle">Todo comienza con una conversación.</h2>
 
-          <div className="ct__links">
-            <a className="ct__link" href="mailto:info@tudominio.com">
-              info@tudominio.com
-            </a>
-
-            <a className="ct__link" href="https://instagram.com/" target="_blank" rel="noreferrer">
-              Instagram
-            </a>
-
-            <a className="ct__link" href="https://facebook.com/" target="_blank" rel="noreferrer">
-              Facebook
-            </a>
-
-            <a className="ct__link" href="https://pinterest.com/" target="_blank" rel="noreferrer">
-              Pinterest
-            </a>
-
-            <a className="ct__link" href="https://www.usa.canon.com/" target="_blank" rel="noreferrer">
-              Canon Profile
-            </a>
-          </div>
-        </aside>
-
-        {/* RIGHT */}
-        <div className="ct__right">
-          <header className="ct__header">
-            <h1 className="ct__title">Say hello!</h1>
-
+          <div className="ct__schedule">
             <button type="button" className="ct__calBtn" onClick={openCalendly}>
               Agendar una llamada
             </button>
@@ -76,74 +46,66 @@ export default function Contact() {
               </a>
               )
             </p>
+          </div>
+
+          <div className="ct__links">
+<a className="ct__link" href="https://instagram.com/" target="_blank" rel="noreferrer">
+              Instagram
+            </a>
+
+            <a className="ct__link" href="https://facebook.com/" target="_blank" rel="noreferrer">
+              Facebook
+            </a>
+
+            <a className="ct__link" href="https://pinterest.com/" target="_blank" rel="noreferrer">
+              Pinterest
+            </a>
+</div>
+        </aside>
+
+        <div className="ct__right">
+          <header className="ct__header">
+            <h1 className="ct__title">Hablemos de su historia!</h1>
+            <p className="ct__intro">
+              Cada boda tiene su propio ritmo, su propia energía y una historia que merece ser
+              contada. Contanos dónde será, cuándo y qué están imaginando para ese día. A partir
+              de ahí podemos coordinar una conversación y conocernos un poco más.
+            </p>
           </header>
 
           <form className="ct__form" onSubmit={onSubmit}>
             <div className="ct__field">
-              <input className="ct__input" type="text" name="name" placeholder="Name" required />
+              <input className="ct__input" type="text" name="name" placeholder="Nombre" required />
             </div>
 
             <div className="ct__field">
-              <input className="ct__input" type="email" name="email" placeholder="Email" required />
+              <input className="ct__input" type="text" name="lastName" placeholder="Apellido" required />
             </div>
 
             <div className="ct__field">
-              <input
-                className="ct__input"
-                type="text"
-                name="instagram"
-                placeholder="Instagram Account(s)"
-              />
-            </div>
-
-            <p className="ct__note">(It´s great to have your face in mind while communicating)</p>
-
-            <div className="ct__field">
-              <input className="ct__input" type="text" name="weddingDay" placeholder="Wedding Day" />
+              <input className="ct__input" type="text" name="weddingDay" placeholder="Fecha de boda" />
             </div>
 
             <div className="ct__field">
-              <input className="ct__input" type="text" name="location" placeholder="Location" />
-            </div>
-
-            <div className="ct__field">
-              <input
-                className="ct__input"
-                type="text"
-                name="venues"
-                placeholder="Ceremony & Reception Venues"
-              />
-            </div>
-
-            <div className="ct__field">
-              <input className="ct__input" type="text" name="planner" placeholder="Wedding Planner" />
-            </div>
-
-            <div className="ct__field">
-              <input className="ct__input" type="text" name="guests" placeholder="Number of Guests" />
-            </div>
-
-            <div className="ct__field">
-              <input
-                className="ct__input"
-                type="text"
-                name="budget"
-                placeholder="Photography Budget"
-              />
+              <input className="ct__input" type="text" name="location" placeholder="Lugar" />
             </div>
 
             <div className="ct__field ct__field--textarea">
-              <textarea className="ct__textarea" name="message" placeholder="Message" rows={4} />
+              <textarea
+                className="ct__textarea"
+                name="message"
+                placeholder="Contanos un poco sobre ustedes y lo que están imaginando para su boda."
+                rows={5}
+              />
             </div>
 
             <button className="ct__submit" type="submit">
-              Send
+              Enviar
             </button>
           </form>
         </div>
       </div>
 
-      {/* ✅ CALENDLY MODAL (WIDGET) */}
       {calOpen && (
         <div className="ctCal" role="dialog" aria-modal="true" aria-label="Agendar llamada">
           <button className="ctCal__overlay" onClick={closeCalendly} aria-label="Cerrar" />
@@ -152,7 +114,7 @@ export default function Contact() {
             <div className="ctCal__top">
               <span className="ctCal__title">Agendar una llamada</span>
               <button className="ctCal__close" onClick={closeCalendly} aria-label="Cerrar">
-                ✕
+                ×
               </button>
             </div>
 

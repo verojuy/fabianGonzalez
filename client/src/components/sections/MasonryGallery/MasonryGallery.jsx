@@ -98,11 +98,11 @@ export default function MasonryGallery() {
         <header className="mg__header">
           <p className="mg__eyebrow">PORTFOLIO</p>
           <h2 className="mg__title">
-            <span className="mg__titleEm">FOTOGRAFÍA ATEMPORAL</span> con una firma editorial.
+            <span className="mg__titleEm">FOTOGRAFÍAS QUE CONSTRUYEN MEMORIA.</span>
           </h2>
           <p className="mg__lead">
-            Nos gusta describir nuestras fotografías como delicadas, emotivas y siempre atemporales.
-            Bodas destino y editoriales en lugares increíbles.
+            Una selección de historias, detalles y momentos que transforman cada boda en un recuerdo único.
+            Una mirada cuidada, emocional y atemporal.
           </p>
         </header>
 

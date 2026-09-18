@@ -2,14 +2,13 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import storiesRouter from "./routes/stories.js";
+import galleryRouter from "./routes/gallery.js";
 
 dotenv.config();
 
 const app = express();
 
-app.use(cors({
-  origin: "http://localhost:5173", // tu frontend Vite
-}));
+app.use(cors()); // Permitir todo temporalmente para pruebas
 
 app.use(express.json());
 
@@ -18,6 +17,7 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api/stories", storiesRouter);
+app.use("/api/gallery", galleryRouter);
 
 const PORT = process.env.PORT || 4000;
 

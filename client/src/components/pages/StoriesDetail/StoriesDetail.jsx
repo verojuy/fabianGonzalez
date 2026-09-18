@@ -1,166 +1,152 @@
 import { useEffect, useRef, useState } from "react";
-import "./MasonryGallery.css";
-import {Link} from "react-router-dom"
-
-import img1 from "../../../assets/images/gallery/gallery1.JPG";
-import img2 from "../../../assets/images/gallery/gallery2.JPG";
-import img3 from "../../../assets/images/gallery/gallery3.JPG";
-import img4 from "../../../assets/images/gallery/gallery4.JPG";
-import img5 from "../../../assets/images/gallery/gallery5.JPG";
-import img6 from "../../../assets/images/gallery/gallery6.JPG";
-import img7 from "../../../assets/images/gallery/gallery7.jpeg";
-import img8 from "../../../assets/images/gallery/gallery8.jpeg";
-import img9 from "../../../assets/images/gallery/gallery9.jpeg";
-import img10 from "../../../assets/images/gallery/gallery10.JPG";
-
-const images = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10];
+import { useParams, Link } from "react-router-dom";
+import { getCloudinaryUrl } from "../../../utils/cloudinary";
+import "./StoriesDetail.css"; // Asegúrate de que el CSS sea el correcto
 
 export default function StoriesDetail() {
-  const itemRefs = useRef([]);
-  const [isVisible, setIsVisible] = useState(() => new Array(images.length).fill(false));
-  const [shouldLoad, setShouldLoad] = useState(() => new Array(images.length).fill(false));
+  const { slug } = useParams(); // Obtiene 'sofi-y-carmelo' de la URL
+  const [story, setStory] = useState(null);
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // ✅ lightbox
+  const itemRefs = useRef([]);
+  const [isVisible, setIsVisible] = useState([]);
+  const [shouldLoad, setShouldLoad] = useState([]);
+
+  // ✅ Lightbox state
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // 1. Cargar la historia específica
+  useEffect(() => {
+    const fetchStoryDetail = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`http://localhost:4000/api/stories/${slug}`);
+        if (!response.ok) throw new Error("Historia no encontrada");
+        
+        const data = await response.json();
+        
+        // Transformamos los datos de la API para la galería
+        const formattedImages = data.images.map(img => ({
+          thumb: getCloudinaryUrl(img.public_id, { width: 800 }),
+          full: getCloudinaryUrl(img.public_id),
+          id: img.public_id
+        }));
+
+        setStory(data);
+        setImages(formattedImages);
+        setIsVisible(new Array(formattedImages.length).fill(false));
+        setShouldLoad(new Array(formattedImages.length).fill(false));
+      } catch (err) {
+        console.error(err);
+        setError("No se pudo cargar la historia seleccionada.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStoryDetail();
+  }, [slug]);
+
+  // 2. Lightbox controls
   const openLightbox = (idx) => {
     setActiveIndex(idx);
     setLightboxOpen(true);
   };
-
   const closeLightbox = () => setLightboxOpen(false);
-
   const prev = () => setActiveIndex((i) => (i - 1 + images.length) % images.length);
   const next = () => setActiveIndex((i) => (i + 1) % images.length);
 
-  // ✅ bloquear scroll + teclado
+  // 3. Scroll & Keyboard locks
   useEffect(() => {
     if (!lightboxOpen) {
       document.body.style.overflow = "";
       return;
     }
     document.body.style.overflow = "hidden";
-
     const onKey = (e) => {
       if (e.key === "Escape") closeLightbox();
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();
     };
-
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lightboxOpen]);
+  }, [lightboxOpen, images.length]);
 
-  // ✅ reveal + carga real
+  // 4. Lazy reveal
   useEffect(() => {
+    if (images.length === 0) return;
     const els = itemRefs.current.filter(Boolean);
-    if (!els.length) return;
-
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-
           const idx = Number(entry.target.dataset.idx);
-
-          setShouldLoad((prevArr) => {
-            if (prevArr[idx]) return prevArr;
-            const nextArr = [...prevArr];
-            nextArr[idx] = true;
-            return nextArr;
-          });
-
-          setIsVisible((prevArr) => {
-            if (prevArr[idx]) return prevArr;
-            const nextArr = [...prevArr];
-            nextArr[idx] = true;
-            return nextArr;
-          });
-
+          setShouldLoad((p) => { const n = [...p]; n[idx] = true; return n; });
+          setIsVisible((p) => { const n = [...p]; n[idx] = true; return n; });
           io.unobserve(entry.target);
         });
       },
-      { threshold: 0.18, rootMargin: "0px 0px -12% 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px 200px 0px" }
     );
-
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, []);
+  }, [images]);
+
+  if (loading) return <div className="mg__status">Cargando historia...</div>;
+  if (error) return <div className="mg__status mg__status--error">{error}</div>;
 
   return (
-    <section className="mg" aria-label="Portfolio" id="portfolio">
+    <section className="mg" aria-label="Detalle de Historia">
       <div className="mg__wrap">
         <header className="mg__header">
-          <p className="mg__eyebrow">PORTFOLIO</p>
-          <h2 className="mg__title">
-            <span className="mg__titleEm">FOTOGRAFÍA ATEMPORAL</span> con una firma editorial.
-          </h2>
-          <p className="mg__lead">
-            Nos gusta describir nuestras fotografías como delicadas, emotivas y siempre atemporales.
-            Bodas destino y editoriales en lugares increíbles.
-          </p>
+          <p className="mg__eyebrow">STORY</p>
+          <h1 className="mg__title">{story?.title}</h1>
         </header>
 
         <div className="mg__grid">
-          {images.map((src, idx) => (
+          {images.map((img, idx) => (
             <figure
-              key={idx}
+              key={img.id}
               className={`mg__item ${isVisible[idx] ? "is-visible" : ""}`}
-              style={{ "--d": `${idx * 90}ms` }}
+              style={{ "--d": `${idx * 50}ms` }}
               data-idx={idx}
               ref={(el) => (itemRefs.current[idx] = el)}
             >
-              <button
-                type="button"
-                className="mg__btn"
-                onClick={() => openLightbox(idx)}
-                aria-label={`Abrir foto ${idx + 1}`}
-              >
+              <button type="button" className="mg__btn" onClick={() => openLightbox(idx)}>
                 {shouldLoad[idx] ? (
-                  <img className="mg__img" src={src} alt={`Portfolio ${idx + 1}`} loading="eager" />
+                  <img className="mg__img" src={img.thumb} alt={`${story?.title} ${idx + 1}`} />
                 ) : (
-                  <div className="mg__placeholder" aria-hidden="true" />
+                  <div className="mg__placeholder" />
                 )}
               </button>
             </figure>
           ))}
         </div>
-        <Link className="mg__footer" to="/portfolio">
-           Ver portfolio completo
+        
+        <Link className="mg__footer" to="/stories">
+           Volver a todas las historias
         </Link>
       </div>
 
-      {/* ✅ LIGHTBOX */}
+      {/* LIGHTBOX */}
       {lightboxOpen && (
-        <div className="lb" role="dialog" aria-modal="true" aria-label="Galería">
-          <button className="lb__overlay" aria-label="Cerrar" onClick={closeLightbox} />
-
+        <div className="lb" role="dialog" aria-modal="true">
+          <button className="lb__overlay" onClick={closeLightbox} />
           <div className="lb__bar">
-            <span className="lb__count">
-              {activeIndex + 1}/{images.length}
-            </span>
-
-            <button className="lb__close" aria-label="Cerrar" onClick={closeLightbox}>
-              ✕
-            </button>
+            <span className="lb__count">{activeIndex + 1}/{images.length}</span>
+            <button className="lb__close" onClick={closeLightbox}>✕</button>
           </div>
-
-          <button className="lb__nav lb__nav--left" aria-label="Anterior" onClick={prev}>
-            ‹
-          </button>
-
+          <button className="lb__nav lb__nav--left" onClick={prev}>‹</button>
           <figure className="lb__frame">
-            <img className="lb__img" src={images[activeIndex]} alt={`Foto ${activeIndex + 1}`} />
+            <img className="lb__img" src={images[activeIndex].full} alt="Vista ampliada" />
           </figure>
-
-          <button className="lb__nav lb__nav--right" aria-label="Siguiente" onClick={next}>
-            ›
-          </button>
+          <button className="lb__nav lb__nav--right" onClick={next}>›</button>
         </div>
       )}
     </section>
