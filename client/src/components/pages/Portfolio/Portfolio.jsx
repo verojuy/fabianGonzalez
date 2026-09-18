@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./Portfolio.css";
 import { getCloudinaryUrl } from "../../../utils/cloudinary";
+import { apiUrl } from "../../../utils/api";
 
 export default function Portfolio() {
   const [images, setImages] = useState([]);
@@ -20,7 +21,7 @@ export default function Portfolio() {
     const fetchImages = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:4000/api/gallery/portfolio");
+        const response = await fetch(apiUrl("/api/gallery/portfolio"));
         if (!response.ok) throw new Error("Error al cargar la galería");
         
         const data = await response.json();

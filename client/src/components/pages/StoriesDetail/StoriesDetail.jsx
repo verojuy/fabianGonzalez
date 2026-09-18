@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getCloudinaryUrl } from "../../../utils/cloudinary";
+import { apiUrl } from "../../../utils/api";
 import "./StoriesDetail.css"; // Asegúrate de que el CSS sea el correcto
 
 export default function StoriesDetail() {
@@ -23,7 +24,7 @@ export default function StoriesDetail() {
     const fetchStoryDetail = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:4000/api/stories/${slug}`);
+        const response = await fetch(apiUrl(`/api/stories/${slug}`));
         if (!response.ok) throw new Error("Historia no encontrada");
         
         const data = await response.json();

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Stories.css";
 import { Link } from "react-router-dom";
+import { apiUrl } from "../../../utils/api";
 
 export default function Stories() {
   const [stories, setStories] = useState([]);
@@ -12,7 +13,7 @@ export default function Stories() {
       try {
         setLoading(true);
         // Llamamos a la API de historias que configuramos en el servidor
-        const response = await fetch("http://localhost:4000/api/stories");
+        const response = await fetch(apiUrl("/api/stories"));
         if (!response.ok) throw new Error("No se pudieron cargar las historias");
         
         const data = await response.json();
