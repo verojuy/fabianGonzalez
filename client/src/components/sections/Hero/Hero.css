@@ -4,9 +4,7 @@
 
 .hero {
   position: relative;
-  min-height: calc(100vh - 96px); /* navbar alto */
-  display: grid;
-  place-items: center;
+  width: 100%;
   overflow: hidden;
   background: var(--color-bg);
 }
@@ -16,21 +14,23 @@
    ========================= */
 
 .hero__bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transform: scale(1.04); /* leve zoom editorial */
-  will-change: opacity, transform;
+  display: block;
+  width: 100%;
+  height: auto;
+  background-color: var(--color-bg);
+  will-change: opacity;
 }
 
 .hero__bg--prev {
+  position: absolute;
+  top: 0;
+  left: 0;
   opacity: 1;
   z-index: 0;
 }
 
 .hero__bg--active {
+  position: relative;
   opacity: 0;
   z-index: 1;
   animation: heroFadeIn 1.1s ease forwards;

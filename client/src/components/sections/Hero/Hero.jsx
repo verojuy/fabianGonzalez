@@ -1,19 +1,50 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import { apiUrl } from "../../../utils/api";
 import "./Hero.css";
 
-// ✅ imports reales (Vite las procesa)
-import hero1 from "../../../assets/images/hero/hero1.jpeg";
-import hero2 from "../../../assets//images/hero/hero2.JPG";
-import hero3 from "../../../assets/images/hero/hero3.jpeg";
-
 export default function Hero() {
-  const images = useMemo(() => [hero1, hero2, hero3], []);
+  const [images, setImages] = useState([]);
+  const [status, setStatus] = useState("Cargando fotografías...");
 
   const [active, setActive] = useState(0);
   const [prev, setPrev] = useState(0);
 
   const DISPLAY_MS = 5200;
   const FADE_MS = 1100;
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadImages() {
+      try {
+        const response = await fetch(apiUrl("/api/gallery/banner"), {
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error("No se pudo cargar el banner");
+
+        const data = await response.json();
+        const urls = data.map((image) =>
+          image.url.replace("/upload/", "/upload/f_auto,q_auto/")
+        );
+        if (controller.signal.aborted) return;
+        setImages(urls);
+        setStatus(urls.length ? "" : "No hay fotografías disponibles.");
+      } catch (error) {
+        if (controller.signal.aborted) return;
+        console.error("Error al cargar el banner:", error);
+        setStatus("No se pudieron cargar las fotografías.");
+      }
+    }
+
+    loadImages();
+    return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const nextImage = new Image();
+    nextImage.src = images[(active + 1) % images.length];
+  }, [active, images]);
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -28,19 +59,25 @@ export default function Hero() {
 
   return (
     <section className="hero" id="works" aria-label="Hero">
-      <div
+      {status && <p role="status">{status}</p>}
+      {images.length > 0 && <>
+      <img
         className="hero__bg hero__bg--prev"
-        style={{ backgroundImage: `url(${images[prev]})` }}
+        src={images[prev]}
+        alt=""
+        aria-hidden="true"
       />
 
-      <div
+      <img
         className="hero__bg hero__bg--active"
+        src={images[active]}
+        alt="Fotografía de boda de Fabián Gonzalez"
         style={{
-          backgroundImage: `url(${images[active]})`,
-          transitionDuration: `${FADE_MS}ms`,
+          animationDuration: `${FADE_MS}ms`,
         }}
         key={active}
       />
+      </>}
 
       <div className="hero__overlay" />
 
