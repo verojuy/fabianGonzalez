@@ -310,12 +310,12 @@
   }
 
   .mg__grid {
-    column-count: 2;
-    column-gap: 0.9rem;
+    column-count: 3;
+    column-gap: 0.4rem;
   }
 
   .mg__item {
-    margin: 0 0 0.9rem;
+    margin: 0 0 0.4rem;
     border-radius: 0px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
   }
@@ -392,5 +392,21 @@
   }
   .home-portfolio .mg__item {
     flex: var(--photo-ratio) 1 0%;
+  }
+}
+
+@media (max-width: 599px) {
+  .home-portfolio .mg__grid {
+    display: block;
+    column-count: 3;
+    column-gap: 0.4rem;
+  }
+
+  .home-portfolio__row {
+    display: contents;
+  }
+
+  .home-portfolio .mg__item {
+    margin-bottom: 0.4rem;
   }
 }
