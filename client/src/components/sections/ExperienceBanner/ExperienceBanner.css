@@ -48,6 +48,21 @@
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65), 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
+@media (max-width: 768px) {
+  .experience__photo {
+    width: 100%;
+    height: 100svh;
+    aspect-ratio: auto;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .experience__message {
+    min-height: 100svh;
+    aspect-ratio: auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .experience__photo {
     position: relative;
