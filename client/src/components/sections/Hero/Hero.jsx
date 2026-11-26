@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { apiUrl } from "../../../utils/api";
 import "./Hero.css";
 
 export default function Hero() {
+  const heroRef = useRef(null);
   const [images, setImages] = useState([]);
   const [status, setStatus] = useState("Cargando fotografías...");
 
@@ -11,6 +12,34 @@ export default function Hero() {
 
   const DISPLAY_MS = 5200;
   const FADE_MS = 1100;
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      // The parent scrolls normally even while the banner is sticky.
+      const distance = Math.max(0, -hero.parentElement.getBoundingClientRect().top);
+      const limit = window.innerWidth <= 768 ? 24 : 48;
+      const shift = motion.matches ? 0 : Math.min(limit, distance * 0.08);
+      hero.style.setProperty("--hero-drift", `${-shift}px`);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    motion.addEventListener("change", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      motion.removeEventListener("change", schedule);
+      hero.style.removeProperty("--hero-drift");
+    };
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -58,8 +87,9 @@ export default function Hero() {
   }, [active, images.length]);
 
   return (
-    <section className="hero" id="works" aria-label="Hero">
-      {status && <p role="status">{status}</p>}
+    <section className="hero" id="works" aria-label="Fotografías de bodas" ref={heroRef}>
+      <div className="hero__depth">
+      {status && <p className="hero__status" role="status">{status}</p>}
       {images.length > 0 && <>
       <img
         className="hero__bg hero__bg--prev"
@@ -79,15 +109,8 @@ export default function Hero() {
       />
       </>}
 
-      <div className="hero__overlay" />
-
-      {/* <div className="hero__inner">
-        <p className="hero__kicker">WEDDING &amp; EDITORIAL PHOTOGRAPHY</p>
-        <h1 className="hero__title">
-          Timeless photography for <br className="hero__br" />
-          real love stories
-        </h1>       
-      </div> */}
+      <div className="hero__overlay" aria-hidden="true" />
+      </div>
     </section>
   );
 }

@@ -47,13 +47,13 @@
 /* GRID masonry */
 .mg__grid {
   column-count: 3;
-  column-gap: 1.25rem;
+  column-gap: 0.625rem;
 }
 
 /* items */
 .mg__item {
   break-inside: avoid;
-  margin: 0 0 1.25rem;
+  margin: 0 0 0.625rem;
 
   border-radius: 0px;
   overflow: hidden;
@@ -308,11 +308,11 @@
 
   .mg__grid {
     column-count: 2;
-    column-gap: 0.9rem;
+    column-gap: 0.45rem;
   }
 
   .mg__item {
-    margin: 0 0 0.9rem;
+    margin: 0 0 0.45rem;
     border-radius: 0px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
   }

@@ -77,10 +77,8 @@
 }
 
 .ft__socials a {
-  width: 34px;
-  height: 34px;
-  border: 1px solid #cfcfcf;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
 
   display: flex;
   align-items: center;
@@ -93,6 +91,10 @@
 }
 
 /* BOTTOM */
+.ft__socials svg { width: 24px; height: 24px; }
+.ft__socials a:hover { opacity: .65; }
+.ft__socials a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
 .ft__bottom {
   max-width: 1200px;
   margin: 3rem auto 0;

@@ -1,0 +1,69 @@
+.about-contact {
+  position: relative;
+  background: #e3e7dc;
+  padding: clamp(3.5rem, 8vw, 7rem) 1.25rem;
+}
+
+.about-contact__grid {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 4vw, 4rem);
+}
+
+.about-contact__link {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: 1rem 0;
+}
+
+.about-contact__frame {
+  grid-area: 1 / 1;
+  width: 60%;
+  max-width: 240px;
+  aspect-ratio: 5 / 7;
+  overflow: hidden;
+  background: #dcd6cd;
+}
+
+.about-contact__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Retrato de la tarjeta Sobre mí en la página principal. */
+.about-contact__link:first-child .about-contact__image {
+  object-position: 34% center;
+  transform: scale(1.22) translateY(-4%);
+}
+
+.about-contact__title {
+  grid-area: 1 / 1;
+  position: relative;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.2rem, 4vw, 4rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+}
+
+.about-contact__link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 6px;
+}
+
+.about-contact__link:hover .about-contact__title {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}

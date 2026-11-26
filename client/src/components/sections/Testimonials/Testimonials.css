@@ -1,0 +1,59 @@
+.testimonials {
+  --testimonials-height: 32rem;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  background: #343b36;
+  color: var(--color-bg);
+}
+
+.testimonials__background {
+  position: sticky;
+  top: 0;
+  grid-area: 1 / 1;
+  align-self: start;
+  height: var(--testimonials-height);
+  overflow: hidden;
+}
+
+.testimonials__foreground {
+  position: relative;
+  grid-area: 1 / 1;
+  min-width: 0;
+  z-index: 1;
+}
+
+.testimonials__message {
+  display: grid;
+  place-items: center;
+  min-height: var(--testimonials-height);
+  padding: clamp(3rem, 8vw, 7rem) 1.25rem;
+}
+
+.testimonials__following {
+  position: relative;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.testimonials__photos,
+.testimonials__photo,
+.testimonials__shade { position: absolute; inset: 0; width: 100%; height: 100%; }
+.testimonials__photo { object-fit: cover; object-position: center; }
+.testimonials__photo--active { animation: testimonialPhoto 1.1s ease both; }
+.testimonials__shade { background: rgba(20, 24, 20, 0.52); }
+.testimonials__content { position: relative; width: min(100%, 960px); text-align: center; color: #fff; }
+.testimonials__title { margin: 0 0 2.5rem; font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 4.5rem); font-weight: 400; line-height: 1.15; text-transform: uppercase; }
+.testimonials__status { font-size: 0.8rem; margin-bottom: 1rem; }
+.testimonials__quotes { display: grid; width: min(100%, 650px); margin: 0 auto; border-top: 1px solid rgba(255,255,255,.8); padding-top: 2.5rem; }
+.testimonials__quote { grid-area: 1 / 1; margin: 0; min-width: 0; opacity: 0; visibility: hidden; transition: opacity 1.5s ease, visibility 1.5s; }
+.testimonials__quote.is-active { opacity: 1; visibility: visible; }
+.testimonials__quote blockquote { font-family: var(--font-sans); font-size: clamp(1.125rem, 2vw, 1.75rem); font-weight: 500; line-height: 1.4; overflow-wrap: break-word; }
+.testimonials__author { margin-top: 2.5rem; font-size: .875rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+@media (min-width: 769px) { .testimonials { --testimonials-height: min(75vw, 46rem); } }
+@keyframes testimonialPhoto { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .testimonials__background { position: relative; }
+  .testimonials__photo--active { animation: none; }
+  .testimonials__quote { transition: none; }
+}

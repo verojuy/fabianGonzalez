@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import "./Stories.css";
 import { Link } from "react-router-dom";
 import { apiUrl } from "../../../utils/api";
+import { useLanguage } from "../../../utils/language";
+import Footer from "../../layout/Footer/Footer";
 
 export default function Stories() {
+  const [currentLang, t] = useLanguage();
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,12 +34,12 @@ export default function Stories() {
     fetchStories();
   }, []);
 
-  if (loading) return <div className="st__status">Cargando nuestras historias...</div>;
+  if (loading) return <div className="st__status">{t.loadingStories}</div>;
   
   if (error) return (
     <div className="st__status st__status--error">
       <p>{error}</p>
-      <Link to="/" className="st__back-home">Volver al inicio</Link>
+      <Link to="/" className="st__back-home">{t.back}</Link>
     </div>
   );
 
@@ -45,11 +48,11 @@ export default function Stories() {
       <div className="st__wrap">
         <header className="st__header">
           <p className="st__eyebrow">STORIES</p>
-          <h1 className="st__title">Nuestras últimas bodas y editoriales</h1>
+          <h1 className="st__title">{t.storiesTitle}</h1>
         </header>
 
         {stories.length === 0 ? (
-          <p className="st__empty">No hay historias disponibles en este momento.</p>
+          <p className="st__empty">{t.noStories}</p>
         ) : (
           <div className="st__grid">
             {stories.map((s) => (
@@ -65,13 +68,17 @@ export default function Stories() {
 
                 <div className="st__meta">
                   <h3 className="st__couple">{s.title}</h3>
-                  <p className="st__loc">Ver historia completa — {s.count} fotos</p>
+                  <p className="st__loc">{t.storyView} — {s.count} {currentLang === "EN" ? "photos" : currentLang === "IT" ? "foto" : "fotos"}</p>
                 </div>
               </Link>
             ))}
           </div>
         )}
       </div>
+      <div className="st__contactCta">
+        <Link className="st__contactButton" to="/contact">{t.aboutButton}</Link>
+      </div>
+      <Footer />
     </section>
   );
 }

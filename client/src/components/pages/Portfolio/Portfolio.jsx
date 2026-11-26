@@ -2,8 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import "./Portfolio.css";
 import { getCloudinaryUrl } from "../../../utils/cloudinary";
 import { apiUrl } from "../../../utils/api";
+import { Link } from "react-router-dom";
+import Footer from "../../layout/Footer/Footer";
+import { useLanguage } from "../../../utils/language";
 
 export default function Portfolio() {
+  const [, t] = useLanguage();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -32,6 +36,13 @@ export default function Portfolio() {
           full: getCloudinaryUrl(img.id),
           id: img.id
         }));
+
+        // Mezclar una sola vez al recibir la lista; el orden queda fijo al cargar
+        // las imágenes de forma progresiva mientras se recorre el portfolio.
+        for (let i = formattedImages.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [formattedImages[i], formattedImages[j]] = [formattedImages[j], formattedImages[i]];
+        }
 
         setImages(formattedImages);
         setIsVisible(new Array(formattedImages.length).fill(false));
@@ -102,6 +113,7 @@ export default function Portfolio() {
   if (error) return <div className="mg__status mg__status--error">{error}</div>;
 
   return (
+    <>
     <section className="mg" aria-label="Portfolio">
       <div className="mg__wrap">
         <header className="mg__header">
@@ -148,5 +160,10 @@ export default function Portfolio() {
         </div>
       )}
     </section>
+    <div className="mg__contactCta">
+      <Link className="mg__contactButton" to="/contact">{t.aboutButton}</Link>
+    </div>
+    <Footer />
+    </>
   );
 }

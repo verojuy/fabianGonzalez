@@ -11,14 +11,22 @@ router.get("/:folderName", async (req, res) => {
   console.log(`Buscando en carpeta: ${fullFolderPath}`);
 
   try {
-    const result = await cloudinary.search
-      .expression(`folder:"${fullFolderPath}"`)
-      .sort_by('created_at', 'desc')
-      .execute();
+    const resources = [];
+    let nextCursor;
+    do {
+      const query = cloudinary.search
+        .expression(`folder:"${fullFolderPath}"`)
+        .sort_by('created_at', 'desc')
+        .max_results(500);
+      if (nextCursor) query.next_cursor(nextCursor);
+      const result = await query.execute();
+      resources.push(...result.resources);
+      nextCursor = result.next_cursor;
+    } while (nextCursor);
 
-    console.log(`Imágenes encontradas en Cloudinary: ${result.resources.length}`);
+    console.log(`Imágenes encontradas en Cloudinary: ${resources.length}`);
 
-    const images = result.resources.map(img => ({
+    const images = resources.map(img => ({
       id: img.public_id,
       url: img.secure_url
     }));

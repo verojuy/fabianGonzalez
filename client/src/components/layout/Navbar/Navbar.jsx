@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../../../assets/images/logofabian.png";
+import { setLanguage, useLanguage, translations as languageTranslations } from "../../../utils/language";
 
 // Diccionario de traducciones
 const translations = {
@@ -41,10 +42,10 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
-  const [currentLang, setCurrentLang] = useState("ES");
+  const [currentLang, setCurrentLang] = useLanguage();
   
   const location = useLocation();
-  const t = translations[currentLang]; // Alias para las traducciones actuales
+  const t = languageTranslations[currentLang];
 
   useEffect(() => {
     setOpen(false);
@@ -77,6 +78,7 @@ export default function Navbar() {
   };
 
   const selectLang = (lang) => {
+    setLanguage(lang);
     setCurrentLang(lang);
     setLangOpen(false);
   };
@@ -134,7 +136,6 @@ export default function Navbar() {
           <div className="nav__dropdownInner">
             <Link to="/portfolio" className="nav__dropdownLink">{t.portfolio}</Link>
             <Link to="/stories" className="nav__dropdownLink">{t.stories}</Link>
-            <Link to="/#newsletter" className="nav__dropdownLink">{t.newsletter}</Link>
           </div>
         </div>
       </header>
@@ -154,7 +155,6 @@ export default function Navbar() {
             <p className="nav__panelLabel">{t.works}</p>
             <Link className="nav__panelLink" to="/portfolio">{t.portfolio}</Link>
             <Link className="nav__panelLink" to="/stories">{t.stories}</Link>
-            <Link className="nav__panelLink" to="/#newsletter">{t.newsletter}</Link>
           </div>
           <div className="nav__panelGroup">
             <p className="nav__panelLabel">{t.site}</p>

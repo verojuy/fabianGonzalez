@@ -1,0 +1,51 @@
+.home {
+  position: relative;
+}
+
+.home > .hero {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.home) {
+    scroll-behavior: auto;
+  }
+  .home > .hero {
+    position: relative;
+  }
+}
+
+/* No transform or stacking context here: the lightbox must stay above the nav. */
+.home__content {
+  position: relative;
+  display: flow-root;
+  background: var(--color-bg);
+}
+
+/* Transparent extension of the foreground: the quote scrolls with the portfolio. */
+.home__banner-message {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem 1.25rem clamp(5rem, 10vh, 8rem);
+  pointer-events: none;
+}
+
+.home__banner-quote {
+  max-width: 18ch;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.65rem, 5.2vw, 5.5rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.15;
+  text-align: center;
+  color: var(--color-bg);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65), 0 1px 3px rgba(0, 0, 0, 0.5);
+}

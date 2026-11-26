@@ -1,0 +1,55 @@
+.experience {
+  position: relative;
+  display: grid;
+  isolation: isolate;
+  background: var(--color-bg);
+}
+
+.experience__photo {
+  position: sticky;
+  top: 0;
+  grid-area: 1 / 1;
+  align-self: start;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+}
+
+/* This transparent layer follows normal scroll, faster than the photograph. */
+.experience__foreground {
+  position: relative;
+  grid-area: 1 / 1;
+  min-width: 0;
+  z-index: 1;
+}
+
+.experience__message {
+  aspect-ratio: 3 / 2;
+  display: flex;
+  align-items: center;
+  padding: clamp(1.25rem, 5vw, 5rem);
+}
+
+.experience__following {
+  position: relative;
+  background: var(--color-bg);
+}
+
+.experience__title {
+  max-width: 20ch;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 4vw, 4.5rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--color-bg);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65), 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .experience__photo {
+    position: relative;
+  }
+}

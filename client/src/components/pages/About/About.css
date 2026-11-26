@@ -1,165 +1,81 @@
 .about {
-  /* el fondo verdoso */
-  background: #5a6a65;
-  color: rgba(255, 255, 255, 0.92);
-  padding: clamp(4rem, 7vw, 6rem) 0;
+  background: linear-gradient(rgba(15,14,11,.35), rgba(15,14,11,.55)), url("../../../assets/images/sobremi2.png") center 48% / cover no-repeat;
+  background-attachment: fixed;
+  color: #fffaf0;
+  padding: clamp(3rem, 6vw, 6rem) 0 0;
 }
-
 .about__wrap {
-  width: min(var(--max-width), 92vw);
+  position: relative;
+  background: transparent;
+  width: min(1120px, 88vw);
   margin: 0 auto;
-
   display: grid;
-  grid-template-columns: 1fr 1.1fr 1.4fr;
-  gap: clamp(2rem, 5vw, 5rem);
+  grid-template-columns: 1.1fr 1fr;
+  column-gap: clamp(2rem, 7vw, 7rem);
   align-items: start;
 }
-
-/* ===== Left ===== */
-.about__left {
-  padding-top: 0.5rem;
-}
-
-.about__contactName {
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-.about__mail {
-  display: inline-block;
-  margin-top: 0.55rem;
-  opacity: 0.9;
-  text-decoration: none;
-}
-
-.about__links {
-  margin-top: 3.2rem;
-  display: grid;
-  gap: 0.55rem;
-}
-
-.about__link {
-  width: fit-content;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  opacity: 0.9;
-  transition: opacity 0.2s ease;
-}
-
-.about__link:hover {
-  opacity: 1;
-}
-
-.about__link--strong {
-  margin-top: 0.3rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-
-/* ===== Center ===== */
-.about__center {
-  padding-top: 1.2rem;
-}
-
-.about__hello {
+.about__center { grid-column: 1; grid-row: 1; min-width: 0; }
+.about__hello, .about__title {
   font-family: var(--font-serif);
-  font-style: italic;
   font-weight: 400;
-  font-size: clamp(2.1rem, 3.2vw, 3.6rem);
-  line-height: 1.02;
-  margin-bottom: 0.2rem;
-  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.1;
+  color: inherit;
+  text-align: center;
 }
-
-.about__title {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(2.2rem, 3.4vw, 3.9rem);
-  line-height: 1.02;
-  color: rgba(255, 255, 255, 0.95);
-}
-
-/* ===== Right ===== */
-.about__right {
-  padding-top: 1.1rem;
-}
-
-.about__copy {
-  max-width: 62ch;
-  font-size: 1.05rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.about__copy p + p {
-  margin-top: 1rem;
-}
-
-.about__images {
-  margin-top: 2.2rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
-  align-items: start;
-}
-
-.about__imgCard {
-  background: rgba(255, 255, 255, 0.06);
+.about__hello { margin: 0 0 .25rem; font-style: italic; font-size: clamp(1.75rem, 3vw, 3rem); }
+.about__title { margin: 0 0 2rem; font-size: clamp(3rem, 5vw, 5rem); }
+.about__portrait {
+  margin: clamp(4rem, 7vw, 7rem) 0 0;
   overflow: hidden;
-  border-radius: 0; /* esquinas en punta como Pablo Laguía */
+  border-radius: 50% 50% 0 0 / 35% 35% 0 0;
+  border: 1px solid rgba(255,250,240,.55);
+  border-bottom: 0;
+  padding: 6px 6px 0;
 }
-
-.about__img {
-  width: 100%;
-  height: 360px;
-  object-fit: cover;
+.about__portrait img {
   display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: 43% center;
+  border-radius: 50% 50% 0 0 / 35% 35% 0 0;
 }
-
-/* ===== Responsive ===== */
-@media (max-width: 1024px) {
-  .about__wrap {
-    grid-template-columns: 1fr;
-    gap: 2.2rem;
-    text-align: center;
-  }
-
-  .about__left,
-  .about__center,
-  .about__right {
-    padding-top: 0;
-  }
-
-  .about__links {
-    justify-items: center;
-  }
-
-  .about__copy {
-    margin: 0 auto;
-  }
-
-  .about__images {
-    width: min(760px, 92vw);
-    margin: 2rem auto 0;
-    grid-template-columns: 1fr;
-  }
-
-  .about__img {
-    height: 420px;
-  }
+.about__right { grid-column: 2; grid-row: 1; padding-top: clamp(2rem, 6vw, 6rem); }
+.about__copy {
+  font-family: var(--font-serif);
+  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+  line-height: 1.7;
+  text-shadow: 0 1px 8px rgba(0,0,0,.4);
 }
-
-@media (max-width: 560px) {
-  .about {
-    padding: 3.6rem 0 4.2rem;
-  }
-
-  .about__copy {
-    font-size: 1rem;
-  }
-
-  .about__img {
-    height: 360px;
-  }
+.about__copy p + p { margin-top: 1.5rem; }
+.about__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 3rem 6vw;
+}
+.about__links { display: flex; justify-content: center; flex-wrap: wrap; gap: .75rem 1.5rem; font-size: .875rem; }
+.about__links a { color: inherit; text-decoration: underline; text-underline-offset: 5px; }
+.about__links a:hover { text-decoration-thickness: 2px; }
+.about__actions a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+.about__contactButton {
+  display: inline-block;
+  padding: .875rem 2.5rem;
+  border: 1px solid #fffaf0;
+  border-radius: 6px;
+  background: rgba(255, 250, 240, 0.1);
+  color: #fffaf0;
+  font-size: .875rem;
+  letter-spacing: .12em;
+  transition: background-color .2s ease, color .2s ease;
+}
+.about__contactButton:hover { background: rgba(255, 250, 240, 0.2); }
+.about__contactButton:active { background: #fff; color: var(--color-text); }
+@media (max-width: 700px) {
+  .about__wrap { grid-template-columns: 1fr; width: min(520px, 88vw); gap: 2rem; }
+  .about__center, .about__right { grid-column: 1; grid-row: auto; padding-top: 0; }
+  .about__portrait { margin-top: 2rem; }
+  .about__center { order: 0; }
+  .about__right { order: 1; }
 }
