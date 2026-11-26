@@ -246,6 +246,10 @@
 
 /* ✅ MOBILE: 2 columnas */
 @media (max-width: 560px) {
+  .mg__wrap {
+    width: 96vw;
+  }
+
   .mg {
     padding: 3.2rem 0;
   }
